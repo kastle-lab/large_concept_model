@@ -50,7 +50,7 @@ def run(output_dir: Path):
         column_config=[  # we can process several columns at once which is useful for finetuning datasets
             LangColumnConfig("text_sentences", lang_value="eng_Latn")
         ],  # splitter has output a new column `text_sentences` and this is what we will embed
-        device="cuda",  # we want to work on a GPU, if you want to try this on a cpu, change the device here
+        device="cpu",  # we want to work on a GPU, if you want to try this on a cpu, change the device here
     )
     # setup the full pipeline, that will use the splitter and the sonar embeddings,
     full_config = FullPipelineConfig(
@@ -80,7 +80,7 @@ def run(output_dir: Path):
     # requirements for our slurm jobs, if you are using a local cpu, you can ignore this
     # if you are using slurm but no gpus, remove the gpus_per_node config
     req = Requirements(
-        mem_gb=120, gpus_per_node=1, cpus_per_task=10, timeout_min=3 * 24 * 60
+        mem_gb=120, cpus_per_task=10, timeout_min=3 * 24 * 60
     )
     # launching config, here we use `local` to run locally, but you can switch it to `slurm` if you have a SLURM cluster.
     launcher = Launcher(
